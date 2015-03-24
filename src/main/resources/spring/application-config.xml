@@ -6,20 +6,18 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
 	<!-- Uncomment and add your base-package here: <context:component-scan base-package="org.springframework.samples.service"/> -->
-	<context:component-scan base-package="com.utku.service" />
+	<context:component-scan base-package="com.utku" />
+
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location">
 			<value>classpath:application.properties</value>
 		</property>
 	</bean>
-	<bean id="twitterService" class="com.utku.service.TwitterService"
+	<bean id="twitterService" class="com.utku.service.TwitterAPIService"
 		scope="prototype">
 		<property name="lang" value="${tweet.query.lang}" />
 		<property name="resultType" value="${tweet.query.resultType}" />
 		<property name="count" value="${tweet.query.count}" />
 	</bean>
-
-
-
 </beans>

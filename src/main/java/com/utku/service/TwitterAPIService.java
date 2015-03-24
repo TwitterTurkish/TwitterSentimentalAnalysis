@@ -13,9 +13,10 @@ import twitter4j.TwitterFactory;
 
 import com.utku.model.QueryResultDummyImpl;
 
-public class TwitterService {
+public class TwitterAPIService {
 
-	private static final Logger logger = Logger.getLogger(TwitterService.class);
+	private static final Logger logger = Logger
+			.getLogger(TwitterAPIService.class);
 
 	private Twitter twitter;
 
@@ -52,7 +53,6 @@ public class TwitterService {
 	@PostConstruct
 	private void afterInitialize() {
 		twitter = TwitterFactory.getSingleton();
-		// count = Integer.parseInt(countString);
 	}
 
 	public QueryResult search(String keyword) {

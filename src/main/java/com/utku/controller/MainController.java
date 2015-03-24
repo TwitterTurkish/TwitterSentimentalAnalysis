@@ -1,6 +1,7 @@
 package com.utku.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,8 @@ import twitter4j.QueryResult;
 import twitter4j.Status;
 
 import com.utku.model.TweetSimple;
-import com.utku.service.TwitterService;
+import com.utku.service.TwitterAPIService;
+import com.utku.service.TwitterNlpService;
 
 @Controller
 public class MainController {
@@ -29,7 +31,7 @@ public class MainController {
 			@RequestParam(value = "name", required = true) String searchKey,
 			@RequestParam(value = "count", required = false) Integer count) {
 		logger.info("Search with name: " + searchKey);
-		TwitterService instance = (TwitterService) _applicationContext
+		TwitterAPIService instance = (TwitterAPIService) _applicationContext
 				.getBean("twitterService");
 		if (count != null)
 			instance.setCount(count);
@@ -45,12 +47,14 @@ public class MainController {
 			@RequestParam(value = "count", required = false) Integer count) {
 
 		logger.info("Search with name: " + searchKey);
-		TwitterService instance = (TwitterService) _applicationContext
+		TwitterAPIService instance = (TwitterAPIService) _applicationContext
 				.getBean("twitterService");
 		if (count != null)
 			instance.setCount(count);
 		QueryResult search = instance.search(searchKey);
 		List<Status> tweets = search.getTweets();
-		return TweetSimple.toTweetSimple(tweets).toString();
+		Map<String, Integer> generateBagOfWords = TwitterNlpService
+				.generateBagOfWords(TweetSimple.toTweetSimple(tweets));
+		return generateBagOfWords.toString();
 	}
 }
